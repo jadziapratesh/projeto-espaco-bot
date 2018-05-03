@@ -1,0 +1,21 @@
+{
+  "name": "telegram-pede",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "keywords": [],
+  "author": "Fábio Prates",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "firebase": "^4.13.1",
+    "moment": "^2.22.1",
+    "node-schedule": "^1.3.0",
+    "telegraf": "^3.20.0"
+  }
+}
