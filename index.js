@@ -48,10 +48,10 @@ bot.hears(/(\bbn\s)(\bbot$|\bflad$|\bgrupo$|\birmãos das estrelas$|\bchat)/i, c
     if (Math.random() < 0.5) r = `bn ${ctx.message.from.first_name}`
     else r = `bn ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
     // exclamação
-    if (Math.random() < 0.7) r = r + '!'
+    if (Math.random() < 0.6) r = r + '!'
     else r = r + '!!!'
     // empolgação
-    if (Math.random() < 0.7) r = r.toUpperCase()
+    if (Math.random() < 0.2) r = r.toUpperCase()
     // emote adicional
     ctx.reply(r)
     if (Math.random() < 0.2) {
