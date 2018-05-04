@@ -1,7 +1,6 @@
 const env = require('./configEnv')
 const express = require('express')
 const Telegraf = require('telegraf')
-const axios = require('axios')
 const schedule = require('node-schedule')
 // const moment = require('moment')
 const bot = new Telegraf(env.telegram.token)
@@ -17,7 +16,7 @@ var last_videoId = null
 bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
 
 bot.start(ctx => {
-    console.log('start', ctx.chat.id)
+    console.log('start', ctx.chat)
     db.create(ctx.chat, true)
     msg = (ctx.chat.type) == 'private' ? 'Olá irmão das estrelas!' : 'Olá irmãos das estrelas'
     ctx.reply(msg)
