@@ -43,7 +43,8 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-bot.hears(/(?<=\bbn\s)(\bbot$|\bflad$|\bgrupo$|\birmãos das estrelas$|\bchat)/ig, ctx => {
+const regex = new RegExp(/(?<=\bbn\s)(\bbot$|\bflad$|\bgrupo$|\birmãos das estrelas$|\bchat)/ig)
+bot.hears(regex, ctx => {
     // frase
     if (Math.random() < 0.5) r = `bn ${ctx.message.from.first_name}`
     else r = `bn ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
