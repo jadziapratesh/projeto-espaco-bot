@@ -47,11 +47,13 @@ const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
 const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos$)'
 const regex = new RegExp(boa_noite + '|' + bom_dia, 'i')
 bot.hears(regex, ctx => {
+    var t = Math.random()
     if (RegExp(boa_noite).test(ctx.update.message.text))
-        if (Math.random() < 0.7) r = 'bn'
+        if (t < 0.7) r = 'bn'
         else r = 'boa noite'
     else
-        if (Math.random() < 0.7) r = 'bd'
+        if (t < 0.05) r = 'von dos'
+        else if (t < 0.7) r = 'bd'
         else r = 'bom dia'
     // nome
     if (Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
@@ -65,7 +67,7 @@ bot.hears(regex, ctx => {
     // emote adicional
     ctx.reply(r)
     if (Math.random() < 0.2) {
-        var t = Math.random()
+        t = Math.random()
         if (t < 0.3) e = '😍😍😍😍😍😍'
         else if (t < 0.5) e = '👽👽👽👽👽👽👽'
         else if (t < 0.6) e = '❤️️❤️️❤️️❤️️❤️️'
