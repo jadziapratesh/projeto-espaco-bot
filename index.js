@@ -43,13 +43,16 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-bot.hears(/(\bbn\s)(\bbot$|\bflad$|\bgrupo$|\birmãos das estrelas$|\bchat|\bpede$|\bfladmir$)/i, ctx => {
-    // frase
-    if (Math.random() < 0.5) r = `bn ${ctx.message.from.first_name}`
-    else r = `bn ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
+bot.hears(/(\bbn\s|\bboa noite\s)(\bbot|\bflad|\bgrupo|\birmãos das estrelas|\bchat|\bpede)/i, ctx => {
+    // boa noite
+    if (Math.random() < 0.7) r = 'bn'
+    else r = 'boa noite'
+    // nome
+    if (Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
+    else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
     // exclamação
-    if (Math.random() < 0.6) r = r + '!'
-    else r = r + '!!!'
+    if (Math.random() < 0.6) r = `${r} !`
+    else r = `${r} !!!`
     // empolgação
     if (Math.random() < 0.2) r = r.toUpperCase()
     else r = r.toLowerCase()
