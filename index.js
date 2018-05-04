@@ -43,11 +43,16 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-bot.hears(/(\bbn\s|\bboa noite\s|\bbn$|\bboa noite$)|(\bbd\s|\bbom dia\s|\bbd$|\bbom dia$|\bvon dos$|\bvon dos\s)/i, ctx => {
-    console.log(ctx.text)
-    // boa noite
-    if (Math.random() < 0.7) r = 'bn'
-    else r = 'boa noite'
+const boa_noite = '(\\bbn\\s|\\bboa noite\\s|\\bbn$|\\bboa noite$)'
+const bom_dia = '(\\bbd\\s|\\bbom dia\\s|\\bbd$|\\bbom dia$|\\bvon dos$|\\bvon dos\\s)'
+const regex = new RegExp(boa_noite + '|' + bom_dia, 'i')
+bot.hears(regex, ctx => {
+    if (RegExp(boa_noite).test(ctx.update.message.text))
+        if (Math.random() < 0.7) r = 'bn'
+        else r = 'boa noite'
+    else
+        if (Math.random() < 0.7) r = 'bd'
+        else r = 'bom dia'
     // nome
     if (Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
     else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
