@@ -43,8 +43,8 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-const boa_noite = '(\\bbn\\s|\\bboa noite\\s|\\bbn$|\\bboa noite$)'
-const bom_dia = '(\\bbd\\s|\\bbom dia\\s|\\bbd$|\\bbom dia$|\\bvon dos$|\\bvon dos\\s)'
+const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
+const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos$)'
 const regex = new RegExp(boa_noite + '|' + bom_dia, 'i')
 bot.hears(regex, ctx => {
     if (RegExp(boa_noite).test(ctx.update.message.text))
