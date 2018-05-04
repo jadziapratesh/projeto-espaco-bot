@@ -43,7 +43,8 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-bot.hears(/(\bbn\s|\bboa noite\s)(\bbot\s|\bflad|\bgrupo|\birmãos|\bchat|\bpede\s)/i, ctx => {
+bot.hears(/(\bbn\s|\bboa noite\s|\bbn$|\bboa noite$)|(\bbd\s|\bbom dia\s|\bbd$|\bbom dia$|\bvon dos$|\bvon dos\s)/i, ctx => {
+    console.log(ctx)
     // boa noite
     if (Math.random() < 0.7) r = 'bn'
     else r = 'boa noite'
