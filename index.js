@@ -2,7 +2,7 @@ const env = require('./configEnv')
 const express = require('express')
 const Telegraf = require('telegraf')
 const schedule = require('node-schedule')
-// const moment = require('moment')
+const moment = require('moment')
 const bot = new Telegraf(env.telegram.token)
 const db = require('./firebase')
 const yt = require('./youtube')
@@ -16,7 +16,7 @@ var last_videoId = null
 bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
 
 bot.start(ctx => {
-    console.log('start', ctx.chat)
+    console.log('bot started by', ctx.chat)
     db.create(ctx.chat, true)
     msg = (ctx.chat.type) == 'private' ? 'Olá irmão das estrelas!' : 'Olá irmãos das estrelas'
     ctx.reply(msg)
@@ -43,7 +43,26 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-// bot.hears(/bn/i, ctx => ctx.reply(`bn ${ctx.message.from.first_name}!`))
+bot.hears(/(?<=\bbn\s)(\bbot$|\bflad$|\bgrupo$|\birmãos das estrelas$|\bchat)/ig, ctx => {
+    // frase
+    if (Math.random() < 0.5) r = `bn ${ctx.message.from.first_name}`
+    else r = `bn ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
+    // exclamação
+    if (Math.random() < 0.7) r = r + '!'
+    else r = r + '!!!'
+    // empolgação
+    if (Math.random() < 0.7) r = r.toUpperCase()
+    // emote adicional
+    ctx.reply(r)
+    if (Math.random() < 0.2) {
+        var t = Math.random()
+        if (t < 0.3) e = '😍😍😍😍😍😍'
+        else if (t < 0.5) e = '👽👽👽👽👽👽👽'
+        else if (t < 0.6) e = '❤️️❤️️❤️️❤️️❤️️'
+        else e = '😂😂😂😂😂😂😂'
+        setTimeout(() => ctx.reply(e), 10000)
+    }
+})
 
 // app.get('/projetoEspacoBot', (req, res) => {
 //     res.redirect('https://telegram.me/ProjetoEspacoBot')
