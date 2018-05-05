@@ -77,7 +77,7 @@ bot.hears(regex, ctx => {
     }
 })
 
-bot.hears(/^\bvamos$/i, ctx => {
+bot.hears(/^\bvamos$|^\/vamos$/i, ctx => {
     ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
 })
 
