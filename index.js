@@ -77,6 +77,10 @@ bot.hears(regex, ctx => {
     }
 })
 
+bot.hears(/^\bvamos$/i, ctx => {
+    ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
+})
+
 // app.get('/projetoEspacoBot', (req, res) => {
 //     res.redirect('https://telegram.me/ProjetoEspacoBot')
 // })
