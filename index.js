@@ -44,20 +44,20 @@ const checkYouTube = () => {
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
 const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
-const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos$)'
+const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos)'
 const regex = new RegExp(boa_noite + '|' + bom_dia, 'i')
 bot.hears(regex, ctx => {
     var t = Math.random()
-    if (RegExp(boa_noite).test(ctx.update.message.text)) {
+    if (RegExp(boa_noite, 'i').test(ctx.update.message.text)) {
         if (t < 0.7) r = 'bn'
         else r = 'boa noite'
     } else {
-        if (t < 0.05) r = 'von dos'
+        if (t < 0.03) r = 'von dos'
         else if (t < 0.7) r = 'bd'
         else r = 'bom dia'
     }
     // nome
-    if (Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
+    if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
     else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
     // exclamação
     if (Math.random() < 0.6) r = `${r} !`
@@ -77,8 +77,11 @@ bot.hears(regex, ctx => {
     }
 })
 
-bot.hears(/^\bvamos$|^\/vamos$/i, ctx => {
-    ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
+bot.command('/vamos', ctx => {
+    if (ctx.message.chat.id == process.env.SUPER_CHAT)
+        ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
+    else
+        ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
 })
 
 // app.get('/projetoEspacoBot', (req, res) => {
