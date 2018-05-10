@@ -78,9 +78,9 @@ bot.hears(regex, ctx => {
 })
 
 bot.command('/vamos', ctx => {
-    if (ctx.message.chat.id == process.env.SUPER_CHAT)
-        ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
-    else
+    // if (ctx.message.chat.id == process.env.SUPER_CHAT)
+    //     ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
+    // else
         ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
 })
 
