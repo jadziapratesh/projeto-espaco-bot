@@ -1,19 +1,19 @@
 const env = require('./configEnv')
-// const express = require('express')
+const express = require('express')
 const Telegraf = require('telegraf')
 const schedule = require('node-schedule')
 const moment = require('moment')
 const bot = new Telegraf(env.telegram.token)
 const db = require('./firebase')
 const yt = require('./youtube')
-// const app = express()
+const app = express()
 
 const PORT = process.env.PORT || 3000
 const URL = process.env.URL || 'https://matchpet.net'
 
 var last_videoId = null
 
-// bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
+bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
 
 bot.start(ctx => {
     console.log('bot started by', ctx.chat)
@@ -97,18 +97,16 @@ bot.command('/enviar', ctx => {
         bot.telegram.sendMessage(process.env.super_chat, ctx.message.text.replace(/\/enviar /, ''))
 })
 
-// app.get('/projetoEspacoBot', (req, res) => {
-//     res.redirect('https://telegram.me/ProjetoEspacoBot')
-// })
+app.get('/projetoEspacoBot', (req, res) => {
+    res.redirect('https://telegram.me/ProjetoEspacoBot')
+})
 
-// app.get('/', (req, res) => {
-//     res.send('Olá irmãos das estrelas!')
-// })
+app.get('/', (req, res) => {
+    res.send('Olá irmãos das estrelas!')
+})
 
-// app.use(bot.webhookCallback(`/bot${env.telegram.token}`))
+app.use(bot.webhookCallback(`/bot${env.telegram.token}`))
 
-// app.listen(PORT, () => {
-//     console.log(`Rodando o servidor na porta ${PORT}`)
-// })
-
-bot.startPolling()
+app.listen(PORT, () => {
+    console.log(`Rodando o servidor na porta ${PORT}`)
+})
