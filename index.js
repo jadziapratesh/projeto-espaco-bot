@@ -92,9 +92,9 @@ bot.command('/spoiler', ctx => {
 })
 
 bot.command('/enviar', ctx => {
-    if (ctx.message.chat.id == process.env.yhwh) {
+    if (ctx.message.chat.id == process.env.YHWH) {
         console.log('sending message')
-        bot.telegram.sendMessage(process.env.super_chat, ctx.message.text.replace(/\/enviar /, ''))
+        bot.telegram.sendMessage(process.env.SUPER_CHAT, ctx.message.text.replace(/\/enviar /, ''))
     }
 })
 
