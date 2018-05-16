@@ -43,14 +43,20 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
-const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
 const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos)'
-const regex = new RegExp(boa_noite + '|' + bom_dia, 'i')
+const boa_tarde = '(\\bbt\\s|\\bbt$|\\bboa tarde)'
+const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
+const regex = new RegExp(bom_dia + '|' + boa_tarde + '|' + boa_noite, 'i')
 bot.hears(regex, ctx => {
     var t = Math.random()
     if (RegExp(boa_noite, 'i').test(ctx.update.message.text)) {
+        if (t < 0.03) r = 'Gooooood Niiiiiiight'
+        if (t < 0.1) r = 'noite boa a'
         if (t < 0.7) r = 'bn'
         else r = 'boa noite'
+    } else if (RegExp(boa_tarde, 'i').test(ctx.update.message.text)) {
+        if (t < 0.7) r = 'bt'
+        else r = 'boa tarde'
     } else {
         if (t < 0.03) r = 'von dos'
         else if (t < 0.7) r = 'bd'
@@ -78,10 +84,16 @@ bot.hears(regex, ctx => {
 })
 
 bot.command('/vamos', ctx => {
-    // if (ctx.message.chat.id == process.env.SUPER_CHAT)
-    //     ctx.reply('@rodrigosiviero @kiyorox @Guilhelbraganca @fabiopratesh vamos pubg')
-    // else
-        ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
+    ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
+})
+
+bot.command('/spoiler', ctx => {
+    ctx.reply('https://www.youtube.com/watch?v=QEGS3-l8Egk')
+})
+
+bot.command('/enviar', ctx => {
+    if (ctx.message.chat.id == process.env.yhwh)
+        bot.telegram.sendMessage(process.env.super_chat, ctx.message.text.replace(/\/enviar /, ''))
 })
 
 // app.get('/projetoEspacoBot', (req, res) => {
