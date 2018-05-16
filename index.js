@@ -92,9 +92,10 @@ bot.command('/spoiler', ctx => {
 })
 
 bot.command('/enviar', ctx => {
-    console.log('ctx', ctx.message)
-    if (ctx.message.chat.id == process.env.yhwh)
+    if (ctx.message.chat.id == process.env.yhwh) {
+        console.log('sending message')
         bot.telegram.sendMessage(process.env.super_chat, ctx.message.text.replace(/\/enviar /, ''))
+    }
 })
 
 app.get('/projetoEspacoBot', (req, res) => {
