@@ -98,6 +98,10 @@ bot.command('/enviar', ctx => {
     }
 })
 
+bot.command('/bodao', ctx => {
+    ctx.reply('https://twitter.com/Bodao1911/status/870302456932171776')
+})
+
 app.get('/projetoEspacoBot', (req, res) => {
     res.redirect('https://telegram.me/ProjetoEspacoBot')
 })
