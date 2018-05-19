@@ -51,8 +51,8 @@ bot.hears(regex, ctx => {
     var t = Math.random()
     if (RegExp(boa_noite, 'i').test(ctx.update.message.text)) {
         if (t < 0.03) r = 'Gooooood Niiiiiiight'
-        if (t < 0.1) r = 'noite boa a'
-        if (t < 0.7) r = 'bn'
+        else if (t < 0.1) r = 'noite boa a'
+        else if (t < 0.7) r = 'bn'
         else r = 'boa noite'
     } else if (RegExp(boa_tarde, 'i').test(ctx.update.message.text)) {
         if (t < 0.7) r = 'bt'
