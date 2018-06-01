@@ -9,7 +9,7 @@ const yt = require('./youtube')
 const app = express()
 
 const PORT = process.env.PORT || 3000
-const URL = process.env.URL || 'https://matchpet.net'
+const URL = process.env.URL
 
 var last_videoId = null
 
