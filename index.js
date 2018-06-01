@@ -91,6 +91,10 @@ bot.command('/spoiler', ctx => {
     ctx.reply('https://www.youtube.com/watch?v=QEGS3-l8Egk')
 })
 
+bot.command('/agenda', ctx => {
+    ctx.reply('Todas Quartas, Sextas e Domingo as 21:30!!')
+})
+
 bot.command('/enviar', ctx => {
     if (ctx.message.chat.id == process.env.YHWH) {
         console.log('sending message')
