@@ -83,6 +83,10 @@ bot.hears(regex, ctx => {
     }
 })
 
+bot.command('/agenda', ctx => {
+    ctx.reply('Todas Quartas, Sextas e Domingos as 21:30 !!')
+})
+
 bot.command('/vamos', ctx => {
     ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
 })
