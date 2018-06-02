@@ -87,6 +87,16 @@ bot.command('/agenda', ctx => {
     ctx.reply('Todas Quartas, Sextas e Domingos as 21:30 !!')
 })
 
+bot.command('/pede', ctx => {
+    yt.check(data => {
+        if (data.items.length > 0) {
+            ctx.reply(data.items[0].snippet.title + ' https://youtube.com/watch?v=' + data.items[0].id.videoId)
+        } else {
+            ctx.reply('A nave Interprise ainda não pousou, digite /agenda para saber quando iremos pousar !')
+        }
+    })
+})
+
 bot.command('/vamos', ctx => {
     ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
 })
