@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000
 const URL = process.env.URL
 
 var last_videoId = null
+const stickers = require('./stickers')
 
 bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
 
@@ -95,6 +96,16 @@ bot.command('/pede', ctx => {
             ctx.reply('A nave Interprise ainda não pousou, digite /agenda para saber quando iremos pousar !')
         }
     })
+})
+
+bot.hears(Object.keys(stickers), ctx => {
+    ctx.replyWithSticker(stickers[ctx.match])
+})
+
+bot.command('/banner', ctx => {
+    ctx.replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC')
+    ctx.replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')
+    ctx.replyWithSticker('CAADAQADswYAArhZlAqQMb2dpEXfeQI')
 })
 
 bot.command('/vamos', ctx => {
