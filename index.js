@@ -6,13 +6,13 @@ const moment = require('moment')
 const bot = new Telegraf(env.telegram.token)
 const db = require('./firebase')
 const yt = require('./youtube')
+const stickers = require('./stickers')
 const app = express()
 
 const PORT = process.env.PORT || 3000
 const URL = process.env.URL
 
 var last_videoId = null
-const stickers = require('./stickers')
 
 bot.telegram.setWebhook(`${URL}/bot${env.telegram.token}`)
 
@@ -64,24 +64,30 @@ bot.hears(regex, ctx => {
         else r = 'bom dia'
     }
     // nome
-    if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
-    else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
-    // exclamação
-    if (Math.random() < 0.6) r = `${r} !`
-    else r = `${r} !!!`
-    // empolgação
-    if (Math.random() < 0.2) r = r.toUpperCase()
-    else r = r.toLowerCase()
-    // emote adicional
-    ctx.reply(r)
-    if (Math.random() < 0.2) {
-        t = Math.random()
-        if (t < 0.3) e = '😍😍😍😍😍😍'
-        else if (t < 0.5) e = '👽👽👽👽👽👽👽'
-        else if (t < 0.6) e = '❤️️❤️️❤️️❤️️❤️️'
-        else e = '😂😂😂😂😂😂😂'
-        setTimeout(() => ctx.reply(e), 10000)
-    }
+    db.apelido(ctx.update.message.from.id, a => {
+        if (a) r = `${r} ${a}`
+        else {
+            if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
+            else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
+        }
+    }).then(nx => {
+        // exclamação
+        if (Math.random() < 0.6) r = `${r} !`
+        else r = `${r} !!!`
+        // empolgação
+        if (Math.random() < 0.2) r = r.toUpperCase()
+        else r = r.toLowerCase()
+        // emote adicional
+        ctx.reply(r)
+        if (Math.random() < 0.2) {
+            t = Math.random()
+            if (t < 0.3) e = '😍😍😍😍😍😍'
+            else if (t < 0.5) e = '👽👽👽👽👽👽👽'
+            else if (t < 0.6) e = '❤️️❤️️❤️️❤️️❤️️'
+            else e = '😂😂😂😂😂😂😂'
+            setTimeout(() => ctx.reply(e), 10000)
+        }
+    })
 })
 
 bot.command('/agenda', ctx => {
@@ -106,6 +112,19 @@ bot.command('/banner', ctx => {
     ctx.replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC')
     ctx.replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')
     ctx.replyWithSticker('CAADAQADswYAArhZlAqQMb2dpEXfeQI')
+})
+
+bot.command('/apelidar', ctx => {
+    var tmp = ctx.update.message.from
+    var nome = ((tmp.last_name == null) ? tmp.first_name : tmp.first_name + ' ' + tmp.last_name)
+    var apelido = ctx.update.message.text.replace(/\/apelidar/, '').trim()
+    if (apelido) {
+        db.apelidar(tmp, apelido)
+        ctx.replyWithMarkdown(`A partir de agora o *${nome}* será conhecido como *${apelido}* !`)
+    } else {
+        db.desapelidar(tmp)
+        ctx.replyWithMarkdown(`Vou te chamar pelo seu nome, *${nome}* !`)
+    }
 })
 
 bot.command('/vamos', ctx => {

@@ -18,6 +18,20 @@ function db() {
             .orderByChild('status')
             .equalTo(true)
             .once('value', (snapshot) => callback(snapshot.val()))
+
+    this.apelidar = (chat, apelido) =>
+        database.ref('apelidos/' + chat.id).set({
+            username: chat.username,
+            apelido: apelido
+        }).catch(e => console.log(e))
+
+    this.desapelidar = (chat) =>
+        database.ref('apelidos/' + chat.id).remove()
+
+    this.apelido = (id, callback) =>
+        database.ref('apelidos/' + id)
+            .child('apelido')
+            .once('value', (snapshot) => callback(snapshot.val() || false))
 }
 
 module.exports = new db()
