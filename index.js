@@ -65,15 +65,14 @@ bot.hears(regex, ctx => {
         else r = 'bom dia'
     }
     // nome
-    db.apelido(ctx.update.message.from.id, a => {
-        if (a !== false) {
+    db.apelido(ctx.message.from.id, a => {
+        if (a) {
             r = `${r} ${a}`
         } else {
             if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
             else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
         }
-    }).then(nx => {
-        console.log(r)
+    }).then(() => {
         // exclamação
         if (Math.random() < 0.6) r = `${r} !`
         else r = `${r} !!!`
@@ -81,7 +80,7 @@ bot.hears(regex, ctx => {
         if (Math.random() < 0.2) r = r.toUpperCase()
         else r = r.toLowerCase()
         // emote adicional
-        ctx.reply(r)
+        setTimeout(() => ctx.reply(r), 1000)
         if (Math.random() < 0.2) {
             t = Math.random()
             if (t < 0.3) e = '😍😍😍😍😍😍'
@@ -131,12 +130,12 @@ bot.command('/apelidar', ctx => {
 })
 
 bot.command('/vamos', ctx => {
-    var f = 'Vamos pousar a nave Interprise,'
-    db.apelido(ctx.update.message.from.id, a => {
-        if (a !== false) {
-            console.log('indo: ' + a)
-            ctx.reply(`${f} ${a} !`)
-        } else ctx.reply(`${f} ${ctx.message.from.first_name} !`)
+    var nome
+    db.apelido(ctx.message.from.id, a => {
+        if (a) nome = a
+        else nome = ctx.message.from.first_name
+    }).then(r => {
+        ctx.reply(`Vamos pousar a nave Interprise, ${nome} !`)
     })
 })
 
