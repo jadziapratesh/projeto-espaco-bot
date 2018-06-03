@@ -50,6 +50,7 @@ const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
 const regex = new RegExp(bom_dia + '|' + boa_tarde + '|' + boa_noite, 'i')
 bot.hears(regex, ctx => {
     var t = Math.random()
+    var r
     if (RegExp(boa_noite, 'i').test(ctx.update.message.text)) {
         if (t < 0.03) r = 'Gooooood Niiiiiiight'
         else if (t < 0.1) r = 'noite boa a'
@@ -66,7 +67,7 @@ bot.hears(regex, ctx => {
     // nome
     db.apelido(ctx.update.message.from.id, a => {
         console.log(a)
-        if (a) {
+        if (a !== false) {
             r = `${r} ${a}`
         } else {
             if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
@@ -132,7 +133,7 @@ bot.command('/apelidar', ctx => {
 bot.command('/vamos', ctx => {
     var f = 'Vamos pousar a nave Interprise,'
     db.apelido(ctx.update.message.from.id, a => {
-        if (a) ctx.reply(`${f} ${a} !`)
+        if (a !== false) ctx.reply(`${f} ${a} !`)
         else ctx.reply(`${f} ${ctx.message.from.first_name} !`)
     })
 })
