@@ -65,8 +65,10 @@ bot.hears(regex, ctx => {
     }
     // nome
     db.apelido(ctx.update.message.from.id, a => {
-        if (a) r = `${r} ${a}`
-        else {
+        console.log(a)
+        if (a) {
+            r = `${r} ${a}`
+        } else {
             if (ctx.message.from.last_name == null || Math.random() < 0.5) r = `${r} ${ctx.message.from.first_name}`
             else r = `${r} ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
         }
@@ -128,7 +130,11 @@ bot.command('/apelidar', ctx => {
 })
 
 bot.command('/vamos', ctx => {
-    ctx.reply(`Vamos pousar a nave Interprise, ${ctx.message.from.first_name} !`)
+    var f = 'Vamos pousar a nave Interprise,'
+    db.apelido(ctx.update.message.from.id, a => {
+        if (a) ctx.reply(`${f} ${a} !`)
+        else ctx.reply(`${f} ${ctx.message.from.first_name} !`)
+    })
 })
 
 bot.command('/spoiler', ctx => {
