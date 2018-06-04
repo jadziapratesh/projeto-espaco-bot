@@ -1,11 +1,11 @@
 const admin = require('firebase-admin')
+const jwt = require('jsonwebtoken')
+const fs = require('fs')
+
+var serviceAccount = jwt.verify(fs.readFileSync('./private.key', 'utf8'), process.env.JWT)
 
 admin.initializeApp({
-    credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECTID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-    }),
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.FIREBASE_DATABASEURL
 })
 const database = admin.database()
