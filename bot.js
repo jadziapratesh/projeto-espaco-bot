@@ -90,7 +90,7 @@ bot.command('/agenda', ({ reply }) => {
 
 bot.command('/pede', ({ reply }) => {
     var msg
-    yt.check(data => {
+    yt(data => {
         if (data.items.length > 0) msg = `${data.items[0].snippet.title} https://youtube.com/watch?v=${data.items[0].id.videoId}`
         else msg = 'A nave Interprise ainda não pousou, digite /agenda para saber quando iremos pousar !'
     }).then(() => reply(msg))
