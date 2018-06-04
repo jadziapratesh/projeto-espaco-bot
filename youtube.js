@@ -1,10 +1,6 @@
-const env = require('./configEnv')
 const axios = require('axios')
 
-function YouTube() {
-    this.check = (callback) =>
-        axios.get(env.youtube.apiUrl + '&part=snippet&channelId=UCXkoYq6nMIVH5iu-0Z35N4A&eventType=live&type=video&fields=items(id%2Csnippet%2Ftitle)')
-            .then((res, data) => callback(res.data)).catch(e => console.log(e))
-}
-
-module.exports = new YouTube()
+module.exports = (callback) =>
+    axios.get(`https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_TOKEN}&part=snippet&channelId=${process.env.CHANNEL_ID}&eventType=live&type=video&fields=items(id%2Csnippet%2Ftitle)`)
+        .then((res, data) => callback(res.data))
+        .catch(e => console.log(e))

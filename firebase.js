@@ -1,9 +1,14 @@
-const env = require('./configEnv')
-const firebase = require('firebase')
-require('firebase/database')
+const admin = require('firebase-admin')
 
-firebase.initializeApp(env.firebase)
-var database = firebase.database()
+admin.initializeApp({
+    credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECTID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY
+    }),
+    databaseURL: process.env.FIREBASE_DATABASEURL
+})
+const database = admin.database()
 
 function db() {
     this.create = (chat, status) =>
@@ -35,3 +40,4 @@ function db() {
 }
 
 module.exports = new db()
+// module.exports = database
