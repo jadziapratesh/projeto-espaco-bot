@@ -6,15 +6,13 @@ const db = require('./firebase')
 const yt = require('./youtube')
 const stickers = require('./stickers')
 
+var last_videoId = null
+
 bot.start(({ chat, reply }) => {
     console.log('== bot started by ==', chat)
     db.create(chat, true)
     msg = (chat.type) == 'private' ? 'Olá irmão das estrelas!' : 'Olá irmãos das estrelas'
     reply(msg)
-})
-
-bot.command('/stat', ({ reply, session, from }) => {
-    reply(`${session.surox} por ${from.username}`)
 })
 
 const sendMessage = msg => {
@@ -65,8 +63,7 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
             if (message.from.last_name == null || Math.random() < 0.5) r = `${r} ${message.from.first_name}`
             else r = `${r} ${message.from.first_name} ${message.from.last_name}`
         }
-    }).then(rr => {
-        console.log(rr)
+    }).then(() => {
         // exclamação
         if (Math.random() < 0.6) r = `${r} !`
         else r = `${r} !!!`
