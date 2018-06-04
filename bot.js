@@ -73,7 +73,6 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
         if (Math.random() < 0.2) r = r.toUpperCase()
         else r = r.toLowerCase()
         // resposta
-        // bot.telegram.sendMessage(message.chat.id, r)
         reply(r)
         // emote adicional
         if (Math.random() < 0.2) {
@@ -125,7 +124,6 @@ bot.command('/apelidar', ({ message, replyWithMarkdown }) => {
 
 bot.command('/vamos', ({ message, reply }) => {
     db.apelido(message.from.id).then(apelido => {
-        // bot.telegram.sendMessage(message.chat.id, `Vamos pousar a nave Interprise, ${apelido || message.from.first_name} !`)
         reply(`Vamos pousar a nave Interprise, ${apelido || message.from.first_name} !`)
     })
 })
