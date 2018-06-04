@@ -16,7 +16,7 @@ bot.start(({ chat, reply }) => {
 })
 
 const sendMessage = msg => {
-    db.list(grupos => {
+    db.list().then(grupos => {
         Object.keys(grupos).forEach((chat_id) => {
             bot.telegram.sendMessage(chat_id, msg)
         })
@@ -25,7 +25,7 @@ const sendMessage = msg => {
 
 const checkYouTube = () => {
     yt(data => {
-        console.log('checking youtube')
+        console.log('== checking youtube ==')
         if (data.items.length > 0 && data.items[0].id.videoId != last_videoId) {
             console.log('== sending video ==', data.items[0].id.videoId)
             last_videoId = data.items[0].id.videoId
@@ -56,14 +56,13 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
         else r = 'bom dia'
     }
     // nome / apelido
-    db.apelido(message.from.id, a => {
+    db.apelido(message.from.id).then(a => {
         if (a) {
             r = `${r} ${a}`
         } else {
             if (message.from.last_name == null || Math.random() < 0.5) r = `${r} ${message.from.first_name}`
             else r = `${r} ${message.from.first_name} ${message.from.last_name}`
         }
-    }).then(() => {
         // exclamação
         if (Math.random() < 0.6) r = `${r} !`
         else r = `${r} !!!`
@@ -120,11 +119,9 @@ bot.command('/apelidar', ({ message, replyWithMarkdown }) => {
 })
 
 bot.command('/vamos', ({ message, reply }) => {
-    var nome
-    db.apelido(message.from.id, a => {
-        if (a) nome = a
-        else nome = message.from.first_name
-    }).then(() => reply(`Vamos pousar a nave Interprise, ${nome} !`))
+    db.apelido(message.from.id).then(a => {
+        reply(`Vamos pousar a nave Interprise, ${a || message.from.first_name} !`)
+    })
 })
 
 bot.command('/spoiler', ({ reply }) => {
@@ -133,7 +130,7 @@ bot.command('/spoiler', ({ reply }) => {
 
 bot.command('/enviar', ({ message }) => {
     if (message.chat.id == process.env.YHWH) {
-        console.log('sending message')
+        console.log('== sending message ==')
         bot.telegram.sendMessage(process.env.SUPER_CHAT, message.text.replace(/\/enviar /, ''))
     }
 })

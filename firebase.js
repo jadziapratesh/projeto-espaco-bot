@@ -18,11 +18,13 @@ function db() {
             status: status
         }).catch(e => console.log(e))
 
-    this.list = (callback) => 
-        database.ref('grupos')
-            .orderByChild('status')
-            .equalTo(true)
-            .once('value', (snapshot) => callback(snapshot.val()))
+    this.list = () =>
+        new Promise((res, rej) =>
+            database.ref('grupos')
+                .orderByChild('status')
+                .equalTo(true)
+                .once('value', (snapshot) => res(snapshot.val()))
+        )
 
     this.apelidar = (chat, apelido) =>
         database.ref('apelidos/' + chat.id).set({
@@ -33,10 +35,12 @@ function db() {
     this.desapelidar = (chat) =>
         database.ref('apelidos/' + chat.id).remove()
 
-    this.apelido = (id, callback) =>
-        database.ref('apelidos/' + id)
-            .child('apelido')
-            .once('value', (snapshot) => callback(snapshot.val() || false))
+    this.apelido = (id) =>
+        new Promise((res, rej) =>
+            database.ref('apelidos/' + id)
+                .child('apelido')
+                .once('value', (snapshot) => res(snapshot.val() || false))
+        )
 }
 
 module.exports = new db()
