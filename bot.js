@@ -1,7 +1,7 @@
 const Telegraf = require('telegraf')
 const schedule = require('node-schedule')
 const moment = require('moment')
-const bot = new Telegraf(process.env.TELEGRAM_TOKEN)
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN, {telegram: {webhookReply: false}})
 const db = require('./firebase')
 const yt = require('./youtube')
 const stickers = require('./stickers')
@@ -18,13 +18,16 @@ bot.start(({ chat, reply }) => {
 const sendMessage = msg => {
     db.list().then(grupos => {
         Object.keys(grupos).forEach((chat_id) => {
-            bot.telegram.sendMessage(chat_id, msg)
+            bot.telegram.sendMessage(chat_id, msg).catch(() => {
+                grupos[chat_id].id = chat_id
+                db.create(grupos[chat_id], false)
+            })
         })
     })
 }
 
 const checkYouTube = () => {
-    yt(data => {
+    yt.then(data => {
         console.log('== checking youtube ==')
         if (data.items.length > 0 && data.items[0].id.videoId != last_videoId) {
             console.log('== sending video ==', data.items[0].id.videoId)
@@ -34,7 +37,7 @@ const checkYouTube = () => {
     })
 }
 
-const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
+const notification = new schedule.scheduleJob('* * * * *', checkYouTube)
 
 const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos)'
 const boa_tarde = '(\\bbt\\s|\\bbt$|\\bboa tarde)'
@@ -56,9 +59,9 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
         else r = 'bom dia'
     }
     // nome / apelido
-    db.apelido(message.from.id).then(a => {
-        if (a) {
-            r = `${r} ${a}`
+    db.apelido(message.from.id).then(apelido => {
+        if (apelido) {
+            r = `${r} ${apelido}`
         } else {
             if (message.from.last_name == null || Math.random() < 0.5) r = `${r} ${message.from.first_name}`
             else r = `${r} ${message.from.first_name} ${message.from.last_name}`
@@ -70,6 +73,7 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
         if (Math.random() < 0.2) r = r.toUpperCase()
         else r = r.toLowerCase()
         // resposta
+        // bot.telegram.sendMessage(message.chat.id, r)
         reply(r)
         // emote adicional
         if (Math.random() < 0.2) {
@@ -89,10 +93,11 @@ bot.command('/agenda', ({ reply }) => {
 
 bot.command('/pede', ({ reply }) => {
     var msg
-    yt(data => {
+    yt.then(data => {
         if (data.items.length > 0) msg = `${data.items[0].snippet.title} https://youtube.com/watch?v=${data.items[0].id.videoId}`
         else msg = 'A nave Interprise ainda não pousou, digite /agenda para saber quando iremos pousar !'
-    }).then(() => reply(msg))
+        reply(msg)
+    })
 })
 
 bot.hears(Object.keys(stickers), ({ replyWithSticker, match }) => {
@@ -119,8 +124,9 @@ bot.command('/apelidar', ({ message, replyWithMarkdown }) => {
 })
 
 bot.command('/vamos', ({ message, reply }) => {
-    db.apelido(message.from.id).then(a => {
-        reply(`Vamos pousar a nave Interprise, ${a || message.from.first_name} !`)
+    db.apelido(message.from.id).then(apelido => {
+        // bot.telegram.sendMessage(message.chat.id, `Vamos pousar a nave Interprise, ${apelido || message.from.first_name} !`)
+        reply(`Vamos pousar a nave Interprise, ${apelido || message.from.first_name} !`)
     })
 })
 

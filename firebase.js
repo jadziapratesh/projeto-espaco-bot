@@ -19,7 +19,7 @@ function db() {
         }).catch(e => console.log(e))
 
     this.list = () =>
-        new Promise((res, rej) =>
+        new Promise((res) =>
             database.ref('grupos')
                 .orderByChild('status')
                 .equalTo(true)
@@ -36,7 +36,7 @@ function db() {
         database.ref('apelidos/' + chat.id).remove()
 
     this.apelido = (id) =>
-        new Promise((res, rej) =>
+        new Promise((res) =>
             database.ref('apelidos/' + id)
                 .child('apelido')
                 .once('value', (snapshot) => res(snapshot.val() || false))
@@ -44,4 +44,3 @@ function db() {
 }
 
 module.exports = new db()
-// module.exports = database
