@@ -37,7 +37,7 @@ const checkYouTube = () => {
     })
 }
 
-const notification = new schedule.scheduleJob('* * * * *', checkYouTube)
+const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
 const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos)'
 const boa_tarde = '(\\bbt\\s|\\bbt$|\\bboa tarde)'
