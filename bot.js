@@ -38,6 +38,13 @@ const checkYouTube = () => {
 
 const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
+bot.hears(/^oi$/i, ({ reply, message }) => {
+    var r
+    r = (Math.random() < 0.7) ? 'Oi' : 'Oiii'
+    r = (Math.random() < 0.4) ? `${r} ❤️️❤️️❤️️` : `${r} 😂😂😂`
+    reply(r, ({ 'reply_to_message_id': message.message_id }))
+})
+
 const bom_dia = '(\\bbd\\s|\\bbd$|\\bbom dia|\\bvon dos)'
 const boa_tarde = '(\\bbt\\s|\\bbt$|\\bboa tarde)'
 const boa_noite = '(\\bbn\\s|\\bbn$|\\bboa noite)'
