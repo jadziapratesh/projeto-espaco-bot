@@ -1,6 +1,5 @@
 const Telegraf = require('telegraf')
 const schedule = require('node-schedule')
-const moment = require('moment')
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN, {telegram: {webhookReply: false}})
 const db = require('./firebase')
 const yt = require('./youtube')
