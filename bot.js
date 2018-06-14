@@ -103,7 +103,7 @@ bot.command(['/pede', `/pede@${process.env.BOT_USER}`], ({ reply }) => {
     })
 })
 
-bot.command('/desisto', ({ reply }) =>
+bot.command(['/desisto', '/desistir'], ({ reply }) =>
     reply('Eu desisto de tudo que é injustiça. Eu desisto de tudo que contraria a bondade. Eu desisto de tudo que me leva a ser uma pessoa estúpida. Eu desisto de tudo que faz com que eu seja uma pessoa infeliz na minha vida. Eu desisto de ser infeliz. Eu desisto de ser uma pessoa mesquinha. Eu desisto de ficar enchendo sua paciência. Eu desisto de ser uma pessoa meiga e não ser tratado bem por você. Eu desisto de dar o meu amor pra você e você não retribuir em nada para mim. Eu desisto, desisto de ser apenas um tolo, mas eu aceito ser, aceito ser alguém importante... pra mim mesmo, porque eu tenho o criador e sou o criador porque o criador está dentro de mim.')
 )
 
