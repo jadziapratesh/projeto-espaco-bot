@@ -6,7 +6,7 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-const notification = new schedule.scheduleJob('*/5 21 * * 0,3,5', checkYouTube)
+const notification = new schedule.scheduleJob('* 21-23 * * 0,3,5', checkYouTube)
 
 bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.TELEGRAM_TOKEN}`)
 
