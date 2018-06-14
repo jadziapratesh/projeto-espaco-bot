@@ -1,12 +1,14 @@
 require('dotenv').config()
-const bot = require('./bot')
+const { bot, checkYouTube } = require('./bot')
 const express = require('express')
+const schedule = require('node-schedule')
 const app = express()
 
 const PORT = process.env.PORT || 3000
-const URL = process.env.URL
 
-bot.telegram.setWebhook(`${URL}/bot${process.env.TELEGRAM_TOKEN}`)
+const notification = new schedule.scheduleJob('* * * * *', checkYouTube)
+
+bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.TELEGRAM_TOKEN}`)
 
 app.get('/projetoEspacoBot', (req, res) => {
     res.redirect('https://telegram.me/ProjetoEspacoBot')

@@ -1,5 +1,4 @@
 const Telegraf = require('telegraf')
-const schedule = require('node-schedule')
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN, {telegram: {webhookReply: false}})
 const db = require('./firebase')
 const yt = require('./youtube')
@@ -15,6 +14,7 @@ bot.start(({ chat, reply }) => {
 })
 
 const sendMessage = msg => {
+    console.log(msg)
     db.list().then(grupos => {
         Object.keys(grupos).forEach((chat_id) => {
             bot.telegram.sendMessage(chat_id, msg).catch(() => {
@@ -35,8 +35,6 @@ const checkYouTube = () => {
         }
     })
 }
-
-const notification = new schedule.scheduleJob('*/5 * * * *', checkYouTube)
 
 bot.hears(/^oi$/i, ({ reply, message }) => {
     var r
@@ -92,11 +90,11 @@ bot.hears(RegExp(`${bom_dia}|${boa_tarde}|${boa_noite}`, 'i'), ({ match, message
     })
 })
 
-bot.command('/agenda', ({ reply }) => {
+bot.command(['/agenda', `/agenda@${process.env.BOT_USER}`], ({ reply }) => {
     reply('Todas Quartas, Sextas e Domingos as 21:30 !!')
 })
 
-bot.command('/pede', ({ reply }) => {
+bot.command(['/pede', `/pede@${process.env.BOT_USER}`], ({ reply }) => {
     var msg
     yt.then(data => {
         if (data.items.length > 0) msg = `${data.items[0].snippet.title} https://youtube.com/watch?v=${data.items[0].id.videoId}`
@@ -110,9 +108,9 @@ bot.hears(Object.keys(stickers), ({ replyWithSticker, match }) => {
 })
 
 bot.command('/banner', ({ replyWithSticker }) => {
-    replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC')
-    replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')
-    replyWithSticker('CAADAQADswYAArhZlAqQMb2dpEXfeQI')
+    replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC').then(
+    replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')).then(
+    replyWithSticker('CAADAQADswYAArhZlAqQMb2dpEXfeQI'))
 })
 
 bot.command('/apelidar', ({ message, replyWithMarkdown }) => {
@@ -149,4 +147,4 @@ bot.command('/bodao', ({ reply }) => {
     reply('https://twitter.com/Bodao1911/status/870302456932171776')
 })
 
-module.exports = bot
+module.exports = { bot, checkYouTube }
