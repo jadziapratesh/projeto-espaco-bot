@@ -14,7 +14,6 @@ bot.start(({ chat, reply }) => {
 })
 
 const sendMessage = msg => {
-    console.log(msg)
     db.list().then(grupos => {
         Object.keys(grupos).forEach((chat_id) => {
             bot.telegram.sendMessage(chat_id, msg).catch(() => {
