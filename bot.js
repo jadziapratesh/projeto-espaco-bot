@@ -25,7 +25,7 @@ const sendMessage = msg => {
 }
 
 const checkYouTube = () => {
-    yt.then(data => {
+    yt().then(data => {
         console.log('== checking youtube ==')
         if (data.items.length > 0 && data.items[0].id.videoId != last_videoId) {
             console.log('== sending video ==', data.items[0].id.videoId)
@@ -95,7 +95,7 @@ bot.command(['/agenda', `/agenda@${process.env.BOT_USER}`], ({ reply }) => {
 
 bot.command(['/pede', `/pede@${process.env.BOT_USER}`], ({ reply }) => {
     var msg
-    yt.then(data => {
+    yt().then(data => {
         if (data.items.length > 0) msg = `${data.items[0].snippet.title} https://youtube.com/watch?v=${data.items[0].id.videoId}`
         else msg = 'A nave Interprise ainda não pousou, digite /agenda para saber quando iremos pousar !'
         reply(msg)
