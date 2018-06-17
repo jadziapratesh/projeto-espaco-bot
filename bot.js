@@ -111,8 +111,8 @@ bot.hears(Object.keys(stickers), ({ replyWithSticker, match }) => {
 })
 
 bot.command('/banner', ({ replyWithSticker }) => {
-    replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC').then(
-    replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')).then(
+    replyWithSticker('CAADAQADsQYAArhZlAoAAex598qxsNAC').then(() =>
+    replyWithSticker('CAADAQADsgYAArhZlAr_YiBRu7BuHQI')).then(() =>
     replyWithSticker('CAADAQADswYAArhZlAqQMb2dpEXfeQI'))
 })
 
