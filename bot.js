@@ -14,14 +14,14 @@ bot.start(({ chat, reply }) => {
 })
 
 const sendMessage = msg => {
-    // db.list().then(grupos => {
-    //     Object.keys(grupos).forEach((chat_id) => {
-    //         bot.telegram.sendMessage(chat_id, msg).catch(() => {
-    //             grupos[chat_id].id = chat_id
-    //             db.create(grupos[chat_id], false)
-    //         })
-    //     })
-    // })
+    db.list().then(grupos => {
+        Object.keys(grupos).forEach((chat_id) => {
+            bot.telegram.sendMessage(chat_id, msg).catch(() => {
+                grupos[chat_id].id = chat_id
+                db.create(grupos[chat_id], false)
+            })
+        })
+    })
 }
 
 const checkYouTube = () => {
@@ -140,7 +140,7 @@ bot.command('/spoiler', ({ reply }) => {
 })
 
 bot.command('/enviar', ({ message }) => {
-    if (process.env.YHWH.split(",").indexOf(message.chat.id.toString()) >= 0) {
+    if (process.env.YHWH.split(',').indexOf(message.chat.id.toString()) >= 0) {
         console.log('== sending message ==')
         bot.telegram.sendMessage(process.env.SUPER_CHAT, message.text.replace(/\/enviar /, ''))
     }
