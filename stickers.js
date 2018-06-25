@@ -7,5 +7,7 @@ module.exports = {
     "/helida": "CAADAQADrgYAArhZlAqGl7D3tGxCfAI",
     "/naruto": "CAADAQADrAYAArhZlAr8lEbKeD48dQI",
     "/wilson": "CAADAQADYAMAArhZlArPFTOvrM3bQQI",
-    "/cachaca": "CAADAQADtAYAArhZlAoH6cxOYZdKhwI"
+    "/cachaca": "CAADAQADtAYAArhZlAoH6cxOYZdKhwI",
+    "/fladzinho": "CAADAQADiwMAArhZlAqg1moj8X4Q5wI",
+    "/jaciuk": "CAADAQADtgYAArhZlAqsfCt0PWRvwQI"
 }
